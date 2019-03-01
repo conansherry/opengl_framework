@@ -162,5 +162,9 @@ int main()
 		return 1;
 	}
 
+	printf("Running on a %s from %s\n",
+		glGetString(GL_RENDERER), glGetString(GL_VENDOR));
+	printf("OpenGL version %s is supported\n", glGetString(GL_VERSION));
+
     return 0;
 }
