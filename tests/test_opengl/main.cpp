@@ -33,6 +33,12 @@ GLenum glCheckError_(const char *file, int line)
 
 int main()
 {
+
+#if defined(GLEW_EGL)
+	typedef const GLubyte* (GLAPIENTRY * PFNGLGETSTRINGPROC) (GLenum name);
+	PFNGLGETSTRINGPROC getString;
+#endif
+
 	mmcv::GLContext ctx;
 	if (mmcv::CreateContext(&ctx, 1, 0) != 0)
 	{
@@ -40,6 +46,17 @@ int main()
 		DestroyContext(&ctx);
 	}
 	glewInit();
+
+#if defined(GLEW_EGL)
+	getString = (PFNGLGETSTRINGPROC)eglGetProcAddress("glGetString");
+	if (!getString)
+	{
+		fprintf(stderr, "Error: eglGetProcAddress failed to fetch glGetString\n");
+		DestroyContext(&ctx);
+		return 1;
+	}
+#endif
+
 	glCheckError();
 	const GLubyte* glstring = glGetString(GL_VERSION);
 	std::cout << "opengl version: " << glstring << std::endl;
