@@ -1,5 +1,6 @@
 #include <stdint.h>
-#include <OpenglContext.hpp>
+#include <GL/glew.h>
+#include <GL/eglew.h>
 #include <iostream>
 #include <thread>
 #include <chrono>
